@@ -1,16 +1,23 @@
-# React + Vite
+# NMIT Colloquium AI - Admin Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, Tailwind CSS-powered administrative dashboard for the NMIT Colloquium AI system. This portal allows administrators to manage event data, process new PDF invitations, and monitor system activity.
 
-Currently, two official plugins are available:
+## ✨ Features
+- **PDF Upload Portal**: Drag and drop PDF colloquium invitations for AI processing.
+- **Event Management**: Edit or delete extracted event details (Topic, Speaker, Date, etc.).
+- **Duplicate Detection**: Real-time warnings if a similar event already exists.
+- **Activity Logs**: View a historical record of all administrative actions.
+- **Analytics View**: High-level statistics on colloquium counts and distribution.
+- **Data Export**: One-click export of the entire database to CSV or Excel.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🛠️ Tech Stack
+- **Frontend**: React 19 (Vite)
+- **Styling**: Tailwind CSS
+- **API Client**: Axios
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🚀 Getting Started
+```bash
+npm install
+npm run dev
+```
+The app will be available at `http://localhost:5173` (or the next available port).

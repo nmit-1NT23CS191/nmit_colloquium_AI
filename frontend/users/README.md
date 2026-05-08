@@ -1,16 +1,21 @@
-# React + Vite
+# NMIT Colloquium AI - Student Portal
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The student-facing portal for the NMIT Colloquium AI system. This portal allows students to stay updated on upcoming events and query the system using an intelligent AI assistant.
 
-Currently, two official plugins are available:
+## ✨ Features
+- **AI Event Assistant**: A RAG-powered chatbot that answers questions about colloquium schedules, speakers, and topics.
+- **Context-Aware Chat**: Remembers recent questions to provide a seamless conversational experience.
+- **Event Timeline**: Browse a clean list of all upcoming and past colloquium events.
+- **Responsive UI**: Optimized for both mobile and desktop viewing.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🛠️ Tech Stack
+- **Frontend**: React 19 (Vite)
+- **Styling**: Tailwind CSS
+- **AI Communication**: Integration with the FastAPI backend for RAG queries.
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🚀 Getting Started
+```bash
+npm install
+npm run dev
+```
+The app will be available at `http://localhost:5174` (or the next available port).
