@@ -96,7 +96,7 @@ npm run dev  # Runs on http://localhost:5174
 │   ├── admin/              # Admin React Portal (Tailwind)
 │   ├── users/              # Student React Portal (Tailwind)
 │   └── src/                # Legacy components & utilities
-└── README.md               # This all-in-one guide
+100: └── README.md               # This all-in-one guide
 ```
 
 ---
