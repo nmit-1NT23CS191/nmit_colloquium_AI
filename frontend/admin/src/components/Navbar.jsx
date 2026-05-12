@@ -15,7 +15,7 @@ export default function Navbar({ onMenuClick, search, setSearch, onLogout, curre
   const getPageTitle = (id) => {
     const map = {
       dashboard: 'Dashboard',
-      upload: 'Upload PDF',
+      upload: 'Upload Document',
       events: 'Events Management',
       analytics: 'Analytics',
       files: 'File Manager',

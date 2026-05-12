@@ -23,7 +23,7 @@ export default function Files() {
   };
 
   const deleteFile = async (name) => {
-    if (!window.confirm(`Are you sure you want to delete ${name}? This will remove the PDF file from the server.`)) return;
+    if (!window.confirm(`Are you sure you want to delete ${name}? This will remove the file from the server.`)) return;
     try {
       await axios.delete(`http://localhost:8000/files/delete/${name}`, {
         headers: { role: 'admin' }
@@ -46,7 +46,7 @@ export default function Files() {
     <div className="space-y-6 animate-slide-up">
       <header>
         <h1 className="text-2xl font-bold text-text-main tracking-tight">File Manager</h1>
-        <p className="text-sm text-muted mt-1">Manage physically uploaded PDF source files</p>
+        <p className="text-sm text-muted mt-1">Manage physically uploaded source files</p>
       </header>
 
       <div className="card overflow-hidden">
@@ -73,7 +73,7 @@ export default function Files() {
               ) : files.length === 0 ? (
                 <tr>
                   <td colSpan={4} className="px-6 py-20 text-center text-muted">
-                    No PDF files found in the uploads directory.
+                    No files found in the uploads directory.
                   </td>
                 </tr>
               ) : files.map((file) => (

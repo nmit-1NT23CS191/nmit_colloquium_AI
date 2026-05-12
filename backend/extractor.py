@@ -340,21 +340,18 @@ def extract_event(text):
             result["topic"] = max(candidates, key=len)[:120]
 
     # =========================
-    # 🔥 3. AI FALLBACK (ONLY WHEN NEEDED)
+    # 🔥 3. AI REFINEMENT (ALWAYS RUN TO FIX OCR MISTAKES)
     # =========================
 
-    bad_fields = [k for k in result if is_bad_value(k, result[k])]
+    try:
+        print("Running AI refinement to fix OCR spelling and extract details...")
 
-    if bad_fields:
-        try:
-            print("AI refining:", bad_fields)
-
-            prompt = f"""
+        prompt = f"""
 You are an intelligent extractor.
 
 From this OCR text, extract correct event details.
-
-Understand broken words and context.
+CRITICAL: Fix any spelling mistakes caused by OCR (e.g., "Alin" -> "AI in", "tu" -> "to", "Departnent" -> "Department", "Electronces" -> "Electronics").
+CRITICAL: If the time looks illogical (e.g. "03:00 PM to 03:00 PM"), try to infer the correct time (e.g., "03:00 PM to 04:00 PM") based on typical colloquium durations, or just extract what makes sense.
 
 Return ONLY valid JSON:
 
@@ -372,27 +369,24 @@ Text:
 {text}
 """
 
-            response = client.chat.completions.create(
-                model="gpt-4o-mini",
-                messages=[{"role": "user", "content": prompt}],
-                temperature=0
-            )
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0
+        )
 
-            content = response.choices[0].message.content
-            print("AI RESPONSE:", content)
+        content = response.choices[0].message.content
+        print("AI RESPONSE:", content)
 
-            ai_result = safe_json_parse(content)
+        ai_result = safe_json_parse(content)
 
-            # for key in result:
-            #     if is_bad_value(key, result[key]) and key in ai_result and ai_result[key]:
-            #         result[key] = ai_result[key]
-            for key in result:
-                if key in ai_result and ai_result[key]:
-                    if is_bad_value(key, result[key]) or not result[key]:
-                        result[key] = ai_result[key]
+        # Overwrite regex results with AI results because AI is smarter at fixing OCR
+        for key in result:
+            if key in ai_result and ai_result[key]:
+                result[key] = ai_result[key]
 
-        except Exception as e:
-            print("AI failed:", e)
+    except Exception as e:
+        print("AI extraction failed:", e)
 
     # =========================
     # 🔥 4. FINAL CLEAN OUTPUT

@@ -135,7 +135,7 @@ export default function Dashboard() {
             </div>
             <div className="text-center">
               <p className="text-base font-bold text-text-main">No Sessions Found</p>
-              <p className="text-xs max-w-[200px] mx-auto mt-1 leading-relaxed">Upload a source PDF to extract and schedule new colloquium events.</p>
+              <p className="text-xs max-w-[200px] mx-auto mt-1 leading-relaxed">Upload a source document to extract and schedule new colloquium events.</p>
             </div>
           </div>
         ) : (

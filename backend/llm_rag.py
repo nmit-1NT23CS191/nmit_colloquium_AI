@@ -17,20 +17,48 @@ except Exception as err:
 def build_context(events):
     if not events:
         return "No events available."
-    context = ""
+    
+    from datetime import datetime
+    now = datetime.now()
+    
+    upcoming_events = []
+    past_events = []
+    
     for event in events:
         formatted_date = event.date
+        is_past = False
         try:
             import re
-            m = re.search(r"(\d{2})[-/](\d{2})[-/](\d{4})", str(event.date))
+            import calendar
+            from datetime import datetime
+            
+            event_date_obj = None
+            date_str = str(event.date).strip()
+            
+            # Match DD-MM-YYYY or DD/MM/YYYY
+            m = re.search(r"(\d{2})[-/](\d{2})[-/](\d{4})", date_str)
             if m:
                 d, mth, y = int(m.group(1)), int(m.group(2)), int(m.group(3))
-                import calendar
                 formatted_date = f"{calendar.month_name[mth]} {d}, {y}"
-        except:
-            pass
+                event_date_obj = datetime(y, mth, d)
+            else:
+                # Match "Month DD, YYYY" or "Month D, YYYY"
+                m2 = re.search(r"([A-Za-z]+)\s+(\d{1,2}),?\s+(\d{4})", date_str)
+                if m2:
+                    month_str, d_str, y_str = m2.groups()
+                    month_map = {month.lower(): index for index, month in enumerate(calendar.month_name) if month}
+                    mth = month_map.get(month_str.lower())
+                    if mth:
+                        d, y = int(d_str), int(y_str)
+                        formatted_date = f"{calendar.month_name[mth]} {d}, {y}"
+                        event_date_obj = datetime(y, mth, d)
 
-        context += f"""
+            if event_date_obj and event_date_obj.date() < now.date():
+                is_past = True
+        except Exception as e:
+            print("Date parsing error:", e)
+
+        event_str = f"""
 topic: {event.topic}
 Speaker: {event.speaker}
 Department: {event.department}
@@ -40,6 +68,23 @@ Venue: {event.venue}
 Abstract: {event.abstract}
 ------------------------
 """
+        if is_past:
+            past_events.append(event_str)
+        else:
+            upcoming_events.append(event_str)
+
+    context = "UPCOMING / FUTURE EVENTS:\n"
+    if upcoming_events:
+        context += "".join(upcoming_events)
+    else:
+        context += "None.\n"
+        
+    context += "\nPAST EVENTS:\n"
+    if past_events:
+        context += "".join(past_events)
+    else:
+        context += "None.\n"
+        
     return context
 
 def ask_openai(system_prompt, question, history=None):
@@ -120,12 +165,13 @@ Context Timeline:
 - CURRENT MONTH: {current_month}
 
 CORE INSTRUCTIONS:
-1. TEMPORAL ACCURACY: Using "TODAY'S DATE", accurately compute all relative timeframes. If a user asks "is there any event today" and the database is empty or has no match, strictly say "No".
-2. NO HALLUCINATIONS: Never invent dates or events. If you don't see an event for a specific date in the "Event Data DB" provided below, explicitly state that no event exists for that day.
-3. TIMELINE ENFORCEMENT: Strictly check the "Date" field of each event. Compare it mathematically to "TODAY'S DATE". Do not confuse March (03) with May (05).
-4. PAST EVENTS: Include past events ONLY if the user asks for a summary of the month or a historical view. If they ask for "upcoming", only show future events.
-5. CONTEXT: Actively analyze conversation history to understand pronouns like "it", "that", "the first one".
-6. RESPONSE STYLE: Be concise and factual. Do not apologize unless you were corrected.
+1. EVENT CATEGORIES: The "Event Data DB" provided below is pre-categorized into "UPCOMING / FUTURE EVENTS" and "PAST EVENTS". You MUST respect these categories.
+2. UPCOMING INQUIRIES: If the user asks for "upcoming events", "events today", or "future events", ONLY look at the "UPCOMING / FUTURE EVENTS" section. If that section says "None.", explicitly state that there are no upcoming events. DO NOT mention past events when the user asks for upcoming ones.
+3. PAST INQUIRIES: Only reference events in the "PAST EVENTS" section if the user specifically asks for past events, history, or a summary of a previous month.
+4. TEMPORAL ACCURACY: Using "TODAY'S DATE", accurately compute all relative timeframes (e.g. "tomorrow", "next week").
+5. NO HALLUCINATIONS: Never invent dates or events. 
+6. CONTEXT: Actively analyze conversation history to understand pronouns like "it", "that", "the first one".
+7. RESPONSE STYLE: Be concise, friendly, and factual. Do not apologize unless you were corrected.
 """
 
     question_payload = f"Event Data DB:\n{context}\n\nUser Question: {question}"

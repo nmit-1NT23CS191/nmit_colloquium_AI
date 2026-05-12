@@ -295,7 +295,7 @@ export default function Login({ setAuth }) {
           </div>
           <br />
           <p className="text-white text-sm leading-relaxed mt-4 max-w-md text-center">
-            Manage colloquium events, extract insights from PDFs, and engage students with AI-powered search.
+            Manage colloquium events, extract insights from documents, and engage students with AI-powered search.
           </p>
         </div>
       </div>
@@ -388,23 +388,6 @@ export default function Login({ setAuth }) {
               ) : 'Sign In'}
             </button>
           </form>
-
-          {/* Divider + Google */}
-          <div className="flex items-center gap-4 my-5">
-            <div className="flex-1 h-px bg-slate-200" />
-            <span className="text-xs text-slate-400 font-medium">or</span>
-            <div className="flex-1 h-px bg-slate-200" />
-          </div>
-
-          <button type="button" className="w-full h-11 flex items-center justify-center gap-3 border border-slate-200 rounded-xl text-sm font-semibold text-slate-700 hover:border-slate-300 hover:bg-slate-50 transition-all">
-            <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20H24v8h11.3C33.6 33 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.7 1.1 7.8 2.9l6-6C34.3 6.1 29.4 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20c11 0 20-8.9 20-20 0-1.3-.1-2.7-.4-4z"/><path fill="#FF3D00" d="M6.3 14.7l7 5.1C15 16 19.2 13 24 13c3 0 5.7 1.1 7.8 2.9l6-6C34.3 6.1 29.4 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 10-1.9 13.6-5l-6.3-5.3C29.4 35.3 26.8 36 24 36c-5.2 0-9.5-3.1-11.3-7.5l-7 5.4C9.5 39.6 16.3 44 24 44z"/><path fill="#1976D2" d="M43.6 20H24v8h11.3c-.9 2.5-2.6 4.6-4.7 6l6.3 5.3C40.6 36.2 44 30.5 44 24c0-1.3-.1-2.7-.4-4z"/></svg>
-            Continue with Google
-          </button>
-
-          <p className="text-center text-xs text-slate-400 mt-6">
-            Don't have an account?{' '}
-            <span className="text-indigo-600 font-semibold cursor-pointer hover:underline">Contact Admin</span>
-          </p>
         </div>
       </div>
     </div>

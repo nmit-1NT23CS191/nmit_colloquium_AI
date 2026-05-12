@@ -18,7 +18,7 @@ export default function Upload() {
   };
 
   const pick = (f) => {
-    if (!f || f.type !== 'application/pdf') { setError('Please upload a valid PDF file.'); return; }
+    if (!f || (!f.type.includes('pdf') && !f.name.endsWith('.docx'))) { setError('Please upload a valid PDF or DOCX file.'); return; }
     setFile(f); setError(''); setExtracted(null);
   };
 
@@ -95,7 +95,7 @@ export default function Upload() {
 
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Upload Colloquium PDF</h1>
+        <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Upload Colloquium PDF / DOCX</h1>
         <p className="text-sm text-slate-500 mt-1">AI extracts event details automatically from your document</p>
       </div>
 
@@ -113,7 +113,7 @@ export default function Upload() {
           }`}
       >
         <input
-          ref={inputRef} type="file" accept=".pdf" hidden
+          ref={inputRef} type="file" accept=".pdf,.docx" hidden
           onChange={e => pick(e.target.files[0])}
         />
 
@@ -141,15 +141,15 @@ export default function Upload() {
             <>
               <div>
                 <p className="text-base font-semibold text-slate-800">{file.name}</p>
-                <p className="text-xs text-slate-400 mt-0.5">{(file.size / 1024 / 1024).toFixed(2)} MB · PDF</p>
+                <p className="text-xs text-slate-400 mt-0.5">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
               </div>
               <span className="badge badge-green">File selected</span>
             </>
           ) : (
             <>
               <div>
-                <p className="text-base font-semibold text-slate-700">Drag & drop your PDF here</p>
-                <p className="text-xs text-slate-400 mt-1">or click to browse files · PDF up to 10 MB</p>
+                <p className="text-base font-semibold text-slate-700">Drag & drop your PDF or DOCX here</p>
+                <p className="text-xs text-slate-400 mt-1">or click to browse files · up to 10 MB</p>
               </div>
             </>
           )}

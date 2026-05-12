@@ -128,6 +128,7 @@ import os
 
 from database import init_db, insert_event, fetch_events, log_activity, fetch_logs, check_event_exists
 from pdf_processor import extract_text_from_pdf
+from docx_processor import extract_text_from_docx
 from extractor import extract_event
 from llm_rag import llm_response
 from pydantic import BaseModel
@@ -200,8 +201,16 @@ async def upload(
     with open(path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
 
-    # ✅ Extract text and details
-    text = extract_text_from_pdf(path)
+    # ✅ Extract text based on file extension
+    ext = file.filename.split(".")[-1].lower()
+    if ext == "pdf":
+        text = extract_text_from_pdf(path)
+    elif ext == "docx":
+        text = extract_text_from_docx(path)
+    else:
+        raise HTTPException(status_code=400, detail="Unsupported file format. Please upload PDF or DOCX.")
+
+    # ✅ Extract details
     event = extract_event(text)
 
     # ✅ Check for duplicates in DB
@@ -227,11 +236,11 @@ async def upload(
         insert_event(event)
         
         # ✅ Log Activity
-        log_activity("admin@nmit.edu", "UPLOAD", f"PDF: {file.filename} (Topic: {event['topic']})")
+        log_activity("admin@nmit.edu", "UPLOAD", f"Document: {file.filename} (Topic: {event['topic']})")
         
         return {
             "status": "success",
-            "message": "PDF uploaded and processed successfully",
+            "message": "Document uploaded and processed successfully",
             "event": event
         }
     except Exception as e:
