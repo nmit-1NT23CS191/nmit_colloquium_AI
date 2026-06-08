@@ -1,7 +1,9 @@
 import React, { useState, useRef } from 'react';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 export default function Upload() {
+  const { t } = useTranslation();
   const [file, setFile] = useState(null);
   const [dragging, setDragging] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -19,6 +21,10 @@ export default function Upload() {
 
   const pick = (f) => {
     if (!f || (!f.type.includes('pdf') && !f.name.endsWith('.docx'))) { setError('Please upload a valid PDF or DOCX file.'); return; }
+    if (f.size > 10 * 1024 * 1024) {
+      setError('File size exceeds the 10 MB limit. Please upload a smaller file.');
+      return;
+    }
     setFile(f); setError(''); setExtracted(null);
   };
 
@@ -95,8 +101,8 @@ export default function Upload() {
 
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Upload Colloquium PDF / DOCX</h1>
-        <p className="text-sm text-slate-500 mt-1">AI extracts event details automatically from your document</p>
+        <h1 className="text-2xl font-bold text-slate-900 tracking-tight">{t('upload_title')}</h1>
+        <p className="text-sm text-slate-500 mt-1">{t('upload_subtitle')}</p>
       </div>
 
       {/* Drop Zone */}
@@ -143,13 +149,13 @@ export default function Upload() {
                 <p className="text-base font-semibold text-slate-800">{file.name}</p>
                 <p className="text-xs text-slate-400 mt-0.5">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
               </div>
-              <span className="badge badge-green">File selected</span>
+              <span className="badge badge-green">{t('file_selected')}</span>
             </>
           ) : (
             <>
               <div>
-                <p className="text-base font-semibold text-slate-700">Drag & drop your PDF or DOCX here</p>
-                <p className="text-xs text-slate-400 mt-1">or click to browse files · up to 10 MB</p>
+                <p className="text-base font-semibold text-slate-700">{t('drag_drop_files')}</p>
+                <p className="text-xs text-slate-400 mt-1">{t('click_to_browse')}</p>
               </div>
             </>
           )}
@@ -215,14 +221,14 @@ export default function Upload() {
               </svg>
             </div>
             <div>
-              <p className="text-sm font-semibold text-emerald-800">Event extracted successfully!</p>
-              <p className="text-xs text-emerald-600 mt-0.5">Review the details below and they've been saved automatically</p>
+              <p className="text-sm font-semibold text-emerald-800">{t('event_extracted_success')}</p>
+              <p className="text-xs text-emerald-600 mt-0.5">{t('review_details')}</p>
             </div>
           </div>
 
           {/* Data card */}
           <div className="card p-6 space-y-4">
-            <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wide">Extracted Event Preview</h3>
+            <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wide">{t('extracted_event_preview')}</h3>
             <div className="grid grid-cols-2 gap-4">
               {[
                 ['Title', extracted.topic],
@@ -254,7 +260,7 @@ export default function Upload() {
                   <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" /><line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold text-white text-center">Event Already Exists</h3>
+              <h3 className="text-xl font-bold text-white text-center">{t('event_already_exists')}</h3>
               <p className="text-sm text-slate-400 text-center mt-3 leading-relaxed">
                 An event with the same topic and date was found in the database. What would you like to do?
               </p>

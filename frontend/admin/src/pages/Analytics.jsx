@@ -76,8 +76,8 @@ export default function Analytics() {
   return (
     <div className="space-y-6 animate-slide-up">
       <div>
-        <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Analytics</h1>
-        <p className="text-sm text-slate-500 mt-1">Event telemetry and department distribution for {now.getFullYear()}</p>
+        <h1 className="text-2xl font-bold text-text-main tracking-tight">Analytics</h1>
+        <p className="text-sm text-muted mt-1">Event telemetry and department distribution for {now.getFullYear()}</p>
       </div>
 
       {/* KPIs */}
@@ -86,8 +86,8 @@ export default function Analytics() {
           <div key={i} className="card p-5 flex items-center gap-4">
             <div className={`w-11 h-11 rounded-xl flex items-center justify-center text-xl ${k.color}`}>{k.icon}</div>
             <div>
-              <p className="text-xs text-slate-500">{k.label}</p>
-              <p className="text-2xl font-bold text-slate-900 tracking-tight">{loading ? '—' : k.value}</p>
+              <p className="text-xs text-muted">{k.label}</p>
+              <p className="text-2xl font-bold text-text-main tracking-tight">{loading ? '—' : k.value}</p>
             </div>
           </div>
         ))}
@@ -98,12 +98,12 @@ export default function Analytics() {
         <div className="lg:col-span-3 card p-6">
           <div className="flex items-center justify-between mb-5">
             <div>
-              <h2 className="text-base font-semibold text-slate-800">Events Per Month</h2>
-              <p className="text-xs text-slate-400 mt-0.5">{now.getFullYear()} yearly overview</p>
+              <h2 className="text-base font-semibold text-text-main">Events Per Month</h2>
+              <p className="text-xs text-muted mt-0.5">{now.getFullYear()} yearly overview</p>
             </div>
             <div className="flex items-center gap-1.5">
               <div className="w-3 h-3 rounded bg-indigo-500" />
-              <span className="text-xs text-slate-500">Events</span>
+              <span className="text-xs text-muted">Events</span>
             </div>
           </div>
           <div className="flex items-end gap-1.5 h-44">
@@ -116,13 +116,13 @@ export default function Analytics() {
                     title={`${count} events`}
                   >
                     {count > 0 && (
-                      <span className="absolute -top-5 left-1/2 -translate-x-1/2 text-[10px] font-bold text-slate-600 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                      <span className="absolute -top-5 left-1/2 -translate-x-1/2 text-[10px] font-bold text-muted opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
                         {count}
                       </span>
                     )}
                   </div>
                 </div>
-                <span className="text-[10px] text-slate-400 leading-none">{MONTHS[i]}</span>
+                <span className="text-[10px] text-muted leading-none">{MONTHS[i]}</span>
               </div>
             ))}
           </div>
@@ -130,23 +130,23 @@ export default function Analytics() {
 
         {/* Dept Donut */}
         <div className="lg:col-span-2 card p-6">
-          <h2 className="text-base font-semibold text-slate-800 mb-1">Department Split</h2>
-          <p className="text-xs text-slate-400 mb-5">Distribution by department</p>
+          <h2 className="text-base font-semibold text-text-main mb-1">Department Split</h2>
+          <p className="text-xs text-muted mb-5">Distribution by department</p>
           {loading ? (
             <div className="flex items-center justify-center h-32">
               <div className="w-8 h-8 border-2 border-indigo-100 border-t-indigo-500 rounded-full animate-spin-slow" />
             </div>
           ) : depts.length === 0 ? (
-            <p className="text-sm text-slate-400 text-center py-10">No data yet</p>
+            <p className="text-sm text-muted text-center py-10">No data yet</p>
           ) : (
             <div className="space-y-3">
               {depts.slice(0, 6).map(([d, c], i) => (
                 <div key={d} className="space-y-1">
                   <div className="flex justify-between text-xs">
-                    <span className="font-medium text-slate-700 truncate max-w-[70%]">{d}</span>
-                    <span className="text-slate-400 font-semibold">{Math.round((c / total) * 100)}%</span>
+                    <span className="font-medium text-text-main truncate max-w-[70%]">{d}</span>
+                    <span className="text-muted font-semibold">{Math.round((c / total) * 100)}%</span>
                   </div>
-                  <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
+                  <div className="h-2 bg-main rounded-full overflow-hidden">
                     <div
                       className="h-full rounded-full transition-all duration-700"
                       style={{ width: `${(c / total) * 100}%`, backgroundColor: PALETTE[i % PALETTE.length] }}
@@ -162,22 +162,22 @@ export default function Analytics() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         {/* Top Speakers */}
         <div className="card p-6">
-          <h2 className="text-base font-semibold text-slate-800 mb-4">Top Speakers</h2>
+          <h2 className="text-base font-semibold text-text-main mb-4">Top Speakers</h2>
           {topSpeakers.length === 0 ? (
-            <p className="text-sm text-slate-400 text-center py-8">No speaker data yet</p>
+            <p className="text-sm text-muted text-center py-8">No speaker data yet</p>
           ) : (
             <div className="space-y-3">
               {topSpeakers.map(([name, count], i) => (
                 <div key={name} className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center text-xs font-bold shrink-0">
+                  <div className="w-8 h-8 rounded-full bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-xs font-bold shrink-0">
                     {i + 1}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex justify-between items-center mb-1">
-                      <p className="text-sm font-medium text-slate-700 truncate">{name}</p>
-                      <p className="text-xs text-slate-400 ml-2 shrink-0">{count} event{count > 1 ? 's' : ''}</p>
+                      <p className="text-sm font-medium text-text-main truncate">{name}</p>
+                      <p className="text-xs text-muted ml-2 shrink-0">{count} event{count > 1 ? 's' : ''}</p>
                     </div>
-                    <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                    <div className="h-1.5 bg-main rounded-full overflow-hidden">
                       <div
                         className="h-full bg-indigo-500 rounded-full"
                         style={{ width: `${(count / (topSpeakers[0]?.[1] || 1)) * 100}%` }}
@@ -192,19 +192,19 @@ export default function Analytics() {
 
         {/* Upcoming Timeline */}
         <div className="card p-6">
-          <h2 className="text-base font-semibold text-slate-800 mb-4">Upcoming Timeline</h2>
+          <h2 className="text-base font-semibold text-text-main mb-4">Upcoming Timeline</h2>
           {upcoming.length === 0 ? (
-            <p className="text-sm text-slate-400 text-center py-8">No upcoming events</p>
+            <p className="text-sm text-muted text-center py-8">No upcoming events</p>
           ) : (
-            <div className="relative pl-6 space-y-5 before:absolute before:left-2.5 before:top-2 before:bottom-2 before:w-px before:bg-slate-100">
+            <div className="relative pl-6 space-y-5 before:absolute before:left-2.5 before:top-2 before:bottom-2 before:w-px before:bg-border-main">
               {upcoming.map((e, i) => (
                 <div key={i} className="relative">
-                  <div className="absolute -left-6 top-1 w-4 h-4 rounded-full bg-indigo-50 border-2 border-indigo-400 flex items-center justify-center">
+                  <div className="absolute -left-6 top-1 w-4 h-4 rounded-full bg-card border-2 border-indigo-400 flex items-center justify-center">
                     <div className="w-1.5 h-1.5 bg-indigo-500 rounded-full" />
                   </div>
                   <p className="text-[11px] text-indigo-500 font-semibold mb-0.5">{e.date}</p>
-                  <p className="text-sm font-medium text-slate-800 leading-snug">{e.topic}</p>
-                  <p className="text-xs text-slate-400 mt-0.5">{e.speaker || 'TBA'} • {e.venue || 'TBA'}</p>
+                  <p className="text-sm font-medium text-text-main leading-snug">{e.topic}</p>
+                  <p className="text-xs text-muted mt-0.5">{e.speaker || 'TBA'} • {e.venue || 'TBA'}</p>
                 </div>
               ))}
             </div>
